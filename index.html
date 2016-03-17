@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.15.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.15.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+
+<div id='map'></div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiY3J1emluNzN2dyIsImEiOiJjaWx3c2Z4dmMwMmJ1dTBrc3RuM3FwNzh6In0.gb2VkbyHPD5jmu88rPBy6g'; //Insert your public key here
+var map = new mapboxgl.Map({
+    container: 'map', // container id
+    style: 'mapbox://styles/cruzin73vw/cilvxvyqm00289km8oghj46k5', //stylesheet location, copy it from your mapbox account
+    center: [-118.18, 34.02], // starting position
+    zoom: 10 // starting zoom
+});
+    
+var popup = new mapboxgl.Popup();
+
+// When a click event occurs near a marker icon, open a popup at the location of
+// the feature, with description HTML from its properties.
+map.on('click', function (e) {
+    map.featuresAt(e.point, {
+        radius: 1,
+        includeGeometry: true,
+        layer: 'metro-bus-lines'
+    }, function (err, features) {
+        if (err || !features.length) {
+            popup.remove();
+            return;
+        }
+
+        var feature = features[0];
+
+        popup.setLngLat(map.unproject(e.point))
+            .setHTML(feature.properties.RouteName)
+            .addTo(map);
+    });
+});   
+    
+map.on('mousemove', function (e) {
+    map.featuresAt(e.point, {
+        radius: 1, // Half the marker size (15px).
+        layer: 'metro-bus-lines'
+    }, function (err, features) {
+        map.getCanvas().style.cursor = (!err && features.length) ? 'pointer' : '';
+    });
+});    
+</script>
+
+</body>
+</html>
