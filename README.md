@@ -6,6 +6,7 @@ Project to display a tile of everyone's mapbox styled map like a mosaic using ma
 3. Edit the CSV file `maptimela_styles.csv` and add your name and link to your style.
 
 For just testing the map you just styled.
+
 1. Fork this repo to your github account.
 2. Edit the `index.html` file with your public token key provided by mapbox and your style. (This can be edited in the browser, if you are unfamiliar with the git console or git desktop.)
 3. If you want a popup, make sure the layer you want to display information is named in the code calling for a popup.
